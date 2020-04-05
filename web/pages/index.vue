@@ -16,7 +16,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-button nuxt-link :to="'/accounts/' + accountID" variant="primary"
+        <b-button ref="loginButton" @click="goToAccount" variant="primary"
           >Login</b-button
         >
       </b-form>
@@ -33,7 +33,12 @@ export default Vue.extend({
       accountID: 1
     };
   },
-  components: {}
+  components: {},
+  methods: {
+    goToAccount() {
+      this.$router.push({path: `/accounts/${this.accountID}`})
+    },
+  }
 });
 </script>
 
