@@ -94,48 +94,18 @@ export default {
   },
 
   mounted() {
-    const that = this;
-
     axios
       .get(`http://localhost:8000/api/accounts/${this.$route.params.id}`)
-      .then(function(response) {
-        if (!response.data.length) {
-          window.location = "/";
+      .then((response) => {
+        console.log('account api ', response)
+        if (response.data === 'account_not_found') {
+          this.$router.replace('/');
         } else {
-          that.account = response.data[0];
-
-          if (that.account && that.transactions) {
-            that.loading = false;
+          this.account = response.data.account;
+          this.transactions = response.data.transactions;
+          if (this.account && this.transactions) {
+            this.loading = false;
           }
-        }
-      });
-
-    axios
-      .get(
-        `http://localhost:8000/api/accounts/${
-          that.$route.params.id
-        }/transactions`
-      )
-      .then(function(response) {
-        that["transactions"] = response.data;
-
-        var transactions = [];
-        for (let i = 0; i < that.transactions.length; i++) {
-          that.transactions[i].amount =
-            (that.account.currency === "usd" ? "$" : "€") +
-            that.transactions[i].amount;
-
-          if (that.account.id != that.transactions[i].to) {
-            that.transactions[i].amount = "-" + that.transactions[i].amount;
-          }
-
-          transactions.push(that.transactions[i]);
-        }
-
-        that.transactions = transactions;
-
-        if (that.account && that.transactions) {
-          that.loading = false;
         }
       });
   },
