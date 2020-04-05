@@ -69,7 +69,7 @@
       </b-card>
 
       <b-card class="mt-3" header="Payment History">
-        <b-table striped hover :items="transactions"></b-table>
+        <b-table striped hover :items="transactionsScoped"></b-table>
       </b-card>
     </div>
   </div>
@@ -126,6 +126,7 @@ export default {
         }
       });
   },
+
   methods: {
     onSubmit(event) {
       event.preventDefault();
