@@ -21,11 +21,11 @@
         >
 
         <b-button
+          ref="logoutButton"
           class="float-right"
           variant="danger"
           size="sm"
-          nuxt-link
-          to="/"
+          @click="logout"
           >Logout</b-button
         >
       </b-card>
@@ -133,6 +133,9 @@ export default {
       this.payment = {};
       this.showNewPaymentCard = false;
     },
+    logout() {
+      this.$router.push('/');
+    }
   }
 };
 </script>
