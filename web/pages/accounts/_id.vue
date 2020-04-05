@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="container" v-if="loading">loading...</div>
+    <div ref="loading" class="container" v-if="loading">loading...</div>
 
-    <div class="container" v-if="!loading">
+    <div ref="container" class="container" v-if="!loading">
       <b-card :header="'Welcome, ' + account.name" class="mt-3">
         <b-card-text>
           <div>
@@ -16,9 +16,8 @@
             >
           </div>
         </b-card-text>
-        <b-button size="sm" variant="success" @click="show = !show"
-          >New payment</b-button
-        >
+        <b-button ref="newPayment" size="sm" variant="success" @click="showNewPaymentCard = !showNewPaymentCard"
+          >New payment</b-button>
 
         <b-button
           ref="logoutButton"
@@ -30,7 +29,7 @@
         >
       </b-card>
 
-      <b-card class="mt-3" header="New Payment" v-show="show">
+      <b-card ref="newPaymentCard" class="mt-3" header="New Payment" v-show="show">
         <b-form @submit="onSubmit">
           <b-form-group id="input-group-1" label="To:" label-for="input-1">
             <b-form-input
@@ -65,7 +64,7 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-button type="submit" size="sm" variant="primary">Submit</b-button>
+          <b-button ref="submitPayment" type="submit" size="sm" variant="primary">Submit</b-button>
         </b-form>
       </b-card>
 
