@@ -111,60 +111,28 @@ export default {
   },
 
   methods: {
-    onSubmit(evt) {
-      var that = this;
-
-      evt.preventDefault();
-
+    onSubmit(event) {
+      event.preventDefault();
       axios.post(
         `http://localhost:8000/api/accounts/${
           this.$route.params.id
         }/transactions`,
-
         this.payment
-      );
+      ).then((response) => {
+        console.log(response);
 
-      that.payment = {};
-      that.show = false;
-
-      // update items
-      setTimeout(() => {
-        axios
-          .get(`http://localhost:8000/api/accounts/${this.$route.params.id}`)
-          .then(function(response) {
-            if (!response.data.length) {
-              window.location = "/";
-            } else {
-              that.account = response.data[0];
-            }
-          });
-
-        axios
-          .get(
-            `http://localhost:8000/api/accounts/${
-              that.$route.params.id
-            }/transactions`
-          )
-          .then(function(response) {
-            that["transactions"] = response.data;
-
-            var transactions = [];
-            for (let i = 0; i < that.transactions.length; i++) {
-              that.transactions[i].amount =
-                (that.account.currency === "usd" ? "$" : "€") +
-                that.transactions[i].amount;
-
-              if (that.account.id != that.transactions[i].to) {
-                that.transactions[i].amount = "-" + that.transactions[i].amount;
-              }
-
-              transactions.push(that.transactions[i]);
-            }
-
-            that.transactions = transactions;
-          });
-      }, 200);
-    }
+        if (!response.data.error_message) {
+          this.account = response.data.account;
+          this.transactions = response.data.transactions;
+        } else {
+          // show error message
+          console.log(response.data.error_message)
+        }
+        
+      })
+      this.payment = {};
+      this.showNewPaymentCard = false;
+    },
   }
 };
 </script>
