@@ -82,13 +82,11 @@ import Vue from "vue";
 export default {
   data() {
     return {
-      show: false,
+      showNewPaymentCard: false,
       payment: {},
-
-      account: null,
-      transactions: null,
-
-      loading: true
+      account: {},
+      transactions: [],
+      loading: true,
     };
   },
 
