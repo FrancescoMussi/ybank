@@ -89,7 +89,27 @@ export default {
       loading: true,
     };
   },
-
+  computed: {
+    transactionsScoped() {
+      if (this.transactions) {
+        return this.transactions.map(transaction => {
+          let amount = (this.account.currency === "usd" ? "$" : "€") + transaction.amount;
+          if (this.account.id != transaction.to) {
+            amount = "-" + amount;
+          }
+          return {
+            id: transaction.id,
+            from: transaction.from,
+            to: transaction.to,
+            details: transaction.details,
+            amount,
+          };
+        })
+      } else {
+        return [];
+      }
+    },
+  },
   mounted() {
     axios
       .get(`http://localhost:8000/api/accounts/${this.$route.params.id}`)
@@ -106,7 +126,6 @@ export default {
         }
       });
   },
-
   methods: {
     onSubmit(event) {
       event.preventDefault();
