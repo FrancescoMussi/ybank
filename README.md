@@ -1,1 +1,1 @@
-# Ybank test repository
+# Ybank repository
